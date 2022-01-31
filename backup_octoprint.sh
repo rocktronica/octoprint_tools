@@ -13,7 +13,7 @@ function make_new_backup() {
     echo "CREATING NEW BACKUP..."
     ssh "$user@$host" "
         source ~/oprint/bin/activate
-        octoprint plugins backup:backup
+        octoprint plugins backup:backup --exclude timelapses
     "
     echo
 }
