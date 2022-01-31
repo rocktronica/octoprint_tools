@@ -9,6 +9,15 @@ local_backup_folder="./backups/"
 
 mkdir -p "$local_backup_folder"
 
+function warn_if_ssh_requires_password() {
+    ssh -o BatchMode=yes "$user@$host" "exit" &> /dev/null
+
+    if [ ! $? -eq 0 ]; then
+        echo "WARNING: ssh password required. Script cannot run unsupervised."
+        echo
+    fi
+}
+
 function make_new_backup() {
     echo "CREATING NEW BACKUP..."
     ssh "$user@$host" "
@@ -25,6 +34,7 @@ function download() {
     echo
 }
 
+warn_if_ssh_requires_password
 make_new_backup
 download
 
